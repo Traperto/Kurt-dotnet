@@ -17,6 +17,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
         <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.2.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.1" />
+        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.4" />
     </ItemGroup>
 
     <ItemGroup>
@@ -45,7 +46,7 @@
         <ItemGroup>
             <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
             <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
-            <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+            <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
                 <RelativePath>%(DistFiles.Identity)</RelativePath>
                 <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             </ResolvedFileToPublish>
