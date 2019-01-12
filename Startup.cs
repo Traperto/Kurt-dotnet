@@ -24,7 +24,7 @@ namespace ColaTerminal
         {
 
 
-            services.AddDbContext<kurtContext>(options =>
+            services.AddDbContext<traperto_kurtContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"))
             );
             

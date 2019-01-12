@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ColaTerminal.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ColaTerminal.Controllers
@@ -9,6 +10,14 @@ namespace ColaTerminal.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
+
+        private readonly traperto_kurtContext dbcontext;
+
+        public SampleDataController(traperto_kurtContext dbcontext)
+        {
+            this.dbcontext = dbcontext;
+        }
+
         private static string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -24,6 +33,12 @@ namespace ColaTerminal.Controllers
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             });
+        }
+
+        [HttpGet("[action]")]
+        public IEnumerable<User> helloWorld()
+        {
+            return dbcontext.User.ToList();
         }
 
         public class WeatherForecast
