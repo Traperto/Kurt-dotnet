@@ -41,7 +41,7 @@ namespace ColaTerminal.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User could not be found for username: " + userParam.Username);
             }
 
             Console.WriteLine(userParam.Username);
@@ -59,13 +59,12 @@ namespace ColaTerminal.Controllers
 
             if (hashedPassword != user.Password)
             {
-                return BadRequest("FALSCHES PASSWORT DU SAU!");
+                return BadRequest("Incorrect password entered!");
             }
-            //HttpContext.Session.SetInt32("userId", (int)user.Id);
 
             this.storeToSession(user.Id);
 
-            return Ok("DAS WAR DAS RICHTIGE PASSWORT. DU TIER!");
+            return Ok("Successfully logged in");
         }
 
         [HttpPost("[action]")]
@@ -73,7 +72,7 @@ namespace ColaTerminal.Controllers
         {
             HttpContext.SignOutAsync();
 
-            return Ok();
+            return Ok("Successfully logged out");
         }
 
         private async void storeToSession(uint userId)

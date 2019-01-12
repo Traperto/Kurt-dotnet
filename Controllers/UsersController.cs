@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Linq;
 using ColaTerminal.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ColaTerminal.Controllers
 {
@@ -16,6 +18,15 @@ namespace ColaTerminal.Controllers
             public string UserName { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
+
+            public List<Proceed> Proceeds { get; set; }
+            public List<DrinkCounts> Drinks { get; set; }
+
+            public class DrinkCounts
+            {
+                public Drink Drink { get; set; }
+                public int Count { get; set; }
+            }
         }
 
         private readonly traperto_kurtContext dbcontext;
@@ -28,7 +39,7 @@ namespace ColaTerminal.Controllers
         [HttpGet("[action]/{userId}")]
         public ActionResult GetUser(uint userId)
         {
-            var user = dbcontext.User.FirstOrDefault(u => u.Id == userId);
+            var user = dbcontext.User.Include(x => x.Proceed).ThenInclude(x => x.Drink).FirstOrDefault(x => x.Id == userId);
             if (user == null)
             {
                 return NotFound();
@@ -39,7 +50,9 @@ namespace ColaTerminal.Controllers
                 Id = user.Id, 
                 UserName = user.UserName, 
                 FirstName = user.FirstName, 
-                LastName = user.LastName
+                LastName = user.LastName,
+                Proceeds = user.Proceed.ToList(),
+                Drinks = user.Proceed.GroupBy(x => x.Drink).Select(x => new RestUser.DrinkCounts { Count = x.Count(), Drink = x.Key }).ToList()
             });
         }
     }
