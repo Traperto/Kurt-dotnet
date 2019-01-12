@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using ColaTerminal.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using ColaTerminal.Services;
 
 namespace ColaTerminal
 {
@@ -31,7 +32,7 @@ namespace ColaTerminal
             );
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddScoped<AccountService>();
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.

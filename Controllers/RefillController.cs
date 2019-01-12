@@ -1,10 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 using ColaTerminal.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using ColaTerminal.Services;
 
 namespace ColaTerminal.Controllers
 {
@@ -25,10 +25,12 @@ namespace ColaTerminal.Controllers
         }
 
         private readonly traperto_kurtContext dbcontext;
+        private readonly AccountService accountService;
 
-        public RefillController(traperto_kurtContext dbcontext)
+        public RefillController(traperto_kurtContext dbcontext, AccountService accountService)
         {
             this.dbcontext = dbcontext;
+            this.accountService = accountService;
         }
 
         [HttpPost("[action]")]
@@ -39,14 +41,7 @@ namespace ColaTerminal.Controllers
                 return BadRequest();
             }
 
-            // Get user-id by session
-            if (!int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out var userId))
-            {
-                return BadRequest();
-            }
-
-            // Try to load user by id
-            var user = dbcontext.User.FirstOrDefault(u => u.Id == userId);
+            var user = accountService.GetCurrentUserForContext(HttpContext);
             if (user == null)
             {
                 return NotFound();
@@ -63,7 +58,7 @@ namespace ColaTerminal.Controllers
             dbcontext.Update(user);
 
             // Create a refill
-            var refill = new Refill {UserId = (uint) userId, Price = input.Price};
+            var refill = new Refill {UserId = user.Id, Price = input.Price};
             dbcontext.Refill.Add(refill);
 
             foreach (var item in input.Items)
