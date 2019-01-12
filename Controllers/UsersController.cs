@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ColaTerminal.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class UsersController : Controller
     {

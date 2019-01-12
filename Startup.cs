@@ -30,7 +30,7 @@ namespace ColaTerminal
             services.AddDbContext<traperto_kurtContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"))
             );
-            
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<AccountService>();
             services.AddSession(options =>
@@ -41,7 +41,7 @@ namespace ColaTerminal
             });
 
 
-        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
@@ -65,6 +65,9 @@ namespace ColaTerminal
             app.UseSpaStaticFiles();
             app.UseSession();
             app.UseAuthentication();
+            app.UseCors(builder =>
+              builder.WithOrigins("http://localhost:4200")
+           .AllowAnyHeader());
 
             app.UseMvc(routes =>
             {
