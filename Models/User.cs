@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace ColaTerminal.Models
 {
@@ -21,6 +22,7 @@ namespace ColaTerminal.Models
         public string RfId { get; set; }
         public string Password { get; set; }
 
+        [IgnoreDataMember]
         public ICollection<BalanceTransaction> BalanceTransaction { get; set; }
         [InverseProperty("User")]
         public ICollection<Proceed> Proceed { get; set; }

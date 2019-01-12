@@ -19,6 +19,8 @@ namespace ColaTerminal.Models
         [ForeignKey("Drink")]
         public uint? DrinkId { get; set; }
         public DateTime? Date { get; set; }
+        
+        public double Price { get; set; }
 
         [InverseProperty("Proceed")]
         public Drink Drink { get; set; }
