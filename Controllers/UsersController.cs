@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ColaTerminal.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,21 +26,21 @@ namespace ColaTerminal.Controllers
         }
 
         [HttpGet("[action]/{userId}")]
-        public RestUser getUserData(uint userId)
+        public ActionResult GetUser(uint userId)
         {
-            // TODO authentification
+            var user = dbcontext.User.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-            User user = this.dbcontext.User.Find(userId);
-
-            // TODO user not found
-
-            RestUser newUser = new RestUser();
-            newUser.Id = user.Id;
-            newUser.UserName = user.UserName;
-            newUser.FirstName = user.FirstName;
-            newUser.LastName = user.LastName;
-            return newUser;
-
+            return Ok(new RestUser
+            {
+                Id = user.Id, 
+                UserName = user.UserName, 
+                FirstName = user.FirstName, 
+                LastName = user.LastName
+            });
         }
     }
 
