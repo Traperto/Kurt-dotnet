@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ColaTerminal.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ColaTerminal.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
@@ -34,7 +36,7 @@ namespace ColaTerminal.Controllers
             User user = this.dbcontext.User.Find(userId);
 
             // TODO user not found
-            
+
             RestUser newUser = new RestUser();
             newUser.Id = user.Id;
             newUser.UserName = user.UserName;

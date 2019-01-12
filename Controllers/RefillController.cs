@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ColaTerminal.Controllers
 {
+
+    [Authorize]
     [Route("api/[controller]")]
     public class RefillController : Controller
     {
