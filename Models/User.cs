@@ -18,7 +18,7 @@ namespace ColaTerminal.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public double? Balance { get; set; }
-        public int? RfId { get; set; }
+        public string RfId { get; set; }
         public string Password { get; set; }
 
         public ICollection<BalanceTransaction> BalanceTransaction { get; set; }
