@@ -25,6 +25,8 @@ namespace ColaTerminal.Controllers
         public bool payment([FromForm] BalanceInput input)
         {
             // TODO authentication
+
+            return false;
         }
     }
 }
