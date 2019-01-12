@@ -2,12 +2,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ColaTerminal.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ColaTerminal.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class BuyController : Controller
     {
         public class BuyInput
@@ -25,7 +25,6 @@ namespace ColaTerminal.Controllers
         }
 
         [HttpPost("[action]")]
-        [Authorize]
         public ActionResult Buy([FromBody] BuyInput userParam)
         {
             if (!ModelState.IsValid)
@@ -39,12 +38,6 @@ namespace ColaTerminal.Controllers
             if (user == null || drink == null)
             {
                 return NotFound();
-            }
-
-            if (HttpContext.Session.GetInt32("userId") != user.Id)
-            {
-                // User should only be able to buy for themselves
-                return Unauthorized();
             }
 
             var proceed = new Proceed {UserId = user.Id, DrinkId = drink.Id, Price = drink.Price};
