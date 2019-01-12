@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ColaTerminal.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ColaTerminal
 {
@@ -30,6 +31,13 @@ namespace ColaTerminal
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = true;
+            });
+
 
 
             // In production, the Angular files will be served from this directory
@@ -52,6 +60,7 @@ namespace ColaTerminal
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
