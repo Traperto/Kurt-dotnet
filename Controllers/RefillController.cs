@@ -17,7 +17,7 @@ namespace ColaTerminal.Controllers
         }
         public class RestRefillment
         {
-            public float price { get; set; }
+            public double price { get; set; }
             public List<RestDrinkContainment> items { get; set; }
         }
 
@@ -27,12 +27,23 @@ namespace ColaTerminal.Controllers
             this.dbcontext = dbcontext;
         }
 
+        /**
+         * curl -X POST \
+            https://localhost:5001/api/Refill/payment \
+            -H 'Content-Type: application/json' \
+            -H 'Postman-Token: 41a5bc88-eae0-4a69-b7ce-dc2013480bf6' \
+            -H 'cache-control: no-cache' \
+            -d '{price:10.45,items: [{drinkId:10, quantity:3}]}'
+         */
         [HttpPost("[action]")]
-        public bool payment([FromForm] RefillController input)
+        public bool payment([FromBody] RestRefillment input)
         {
             // TODO authentication
 
-            Console.WriteLine(input);
+            Console.WriteLine(input.price);
+            Console.WriteLine(input.items.ToList().Count);
+            Console.WriteLine(input.items[0].drinkId);
+            //Console.WriteLine($"{input.price} {input.items}");
 
             return false;
         }
