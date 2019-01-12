@@ -75,6 +75,18 @@ namespace ColaTerminal.Controllers
             return Ok("Successfully logged out");
         }
 
+        [AllowAnonymous]
+        [HttpGet("[action]")]
+        public ActionResult isLoggedIn()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
+        }
+
         private async void storeToSession(uint userId)
         {
             var claims = new List<Claim>
