@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ColaTerminal.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ColaTerminal.Controllers
 {
@@ -19,6 +20,15 @@ namespace ColaTerminal.Controllers
             public string UserName { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
+
+            public List<Proceed> Proceeds { get; set; }
+            public List<DrinkCounts> Drinks { get; set; }
+
+            public class DrinkCounts
+            {
+                public Drink Drink { get; set; }
+                public int Count { get; set; }
+            }
         }
 
         private readonly traperto_kurtContext dbcontext;
@@ -29,20 +39,28 @@ namespace ColaTerminal.Controllers
         }
 
         [HttpGet("[action]/{userId}")]
-        public RestUser getUserData(uint userId)
+        public ActionResult GetUserData(uint userId)
         {
             // TODO authentification
 
-            User user = this.dbcontext.User.Find(userId);
 
-            // TODO user not found
+            User user = dbcontext.User.Include(x => x.Proceed).ThenInclude(x => x.Drink).FirstOrDefault(x => x.Id == userId);
 
-            RestUser newUser = new RestUser();
-            newUser.Id = user.Id;
-            newUser.UserName = user.UserName;
-            newUser.FirstName = user.FirstName;
-            newUser.LastName = user.LastName;
-            return newUser;
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            RestUser newUser = new RestUser
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Proceeds = user.Proceed.ToList(),
+                Drinks = user.Proceed.GroupBy(x => x.Drink).Select(x => new RestUser.DrinkCounts { Count = x.Count(), Drink = x.Key }).ToList()
+            };
+            return Ok(newUser);
 
         }
     }
