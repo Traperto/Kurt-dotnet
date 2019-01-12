@@ -67,6 +67,8 @@ namespace ColaTerminal.Controllers
                 var refillContainment = new RefillContainment
                 {
                     RefillId = refill.Id,
+                    // ReSharper disable once PossibleInvalidOperationException 
+                    // Should be set since it's required in the model
                     DrinkId = (uint) item.DrinkId,
                     Quantity = item.Quantity
                 };
@@ -80,6 +82,8 @@ namespace ColaTerminal.Controllers
                     throw new Exception($"Drink for id {item.DrinkId} went missing");
                 }
 
+                // ReSharper disable once PossibleInvalidOperationException
+                // Should be set since it's required in the model
                 drink.Quantity += (int) item.Quantity;
                 dbcontext.Update(drink);
             }

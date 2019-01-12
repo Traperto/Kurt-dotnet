@@ -2,7 +2,7 @@ using System.Security.Claims;
 using ColaTerminal.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
-    
+
 namespace ColaTerminal.Services
 {
     public class AccountService

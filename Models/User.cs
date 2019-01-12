@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
@@ -22,10 +21,8 @@ namespace ColaTerminal.Models
         public string RfId { get; set; }
         public string Password { get; set; }
 
-        [IgnoreDataMember]
-        public ICollection<BalanceTransaction> BalanceTransaction { get; set; }
-        [InverseProperty("User")]
-        public ICollection<Proceed> Proceed { get; set; }
+        [IgnoreDataMember] public ICollection<BalanceTransaction> BalanceTransaction { get; set; }
+        [InverseProperty("User")] public ICollection<Proceed> Proceed { get; set; }
         public ICollection<Refill> Refill { get; set; }
     }
 }
