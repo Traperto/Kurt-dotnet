@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ColaTerminal.Models
 {
@@ -20,8 +21,9 @@ namespace ColaTerminal.Models
         public int? RfId { get; set; }
         public string Password { get; set; }
 
-        public virtual ICollection<BalanceTransaction> BalanceTransaction { get; set; }
-        public virtual ICollection<Proceed> Proceed { get; set; }
-        public virtual ICollection<Refill> Refill { get; set; }
+        public ICollection<BalanceTransaction> BalanceTransaction { get; set; }
+        [InverseProperty("User")]
+        public ICollection<Proceed> Proceed { get; set; }
+        public ICollection<Refill> Refill { get; set; }
     }
 }

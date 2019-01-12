@@ -13,22 +13,26 @@ namespace ColaTerminal.Models
         public traperto_kurtContext(DbContextOptions<traperto_kurtContext> options)
             : base(options)
         {
+
         }
 
-        public virtual DbSet<BalanceTransaction> BalanceTransaction { get; set; }
-        public virtual DbSet<Drink> Drink { get; set; }
-        public virtual DbSet<Proceed> Proceed { get; set; }
-        public virtual DbSet<Refill> Refill { get; set; }
-        public virtual DbSet<RefillContainment> RefillContainment { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public DbSet<BalanceTransaction> BalanceTransaction { get; set; }
+        public DbSet<Drink> Drink { get; set; }
+        public DbSet<Proceed> Proceed { get; set; }
+        public DbSet<Refill> Refill { get; set; }
+        public DbSet<RefillContainment> RefillContainment { get; set; }
+        public DbSet<User> User { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+
             modelBuilder.Entity<BalanceTransaction>(entity =>
             {
                 entity.ToTable("balanceTransaction");

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ColaTerminal.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ColaTerminal.Controllers
 {
@@ -36,9 +37,15 @@ namespace ColaTerminal.Controllers
         }
 
         [HttpGet("[action]")]
-        public IEnumerable<User> helloWorld()
+        public User helloWorld()
         {
-            return dbcontext.User.ToList();
+            return dbcontext.User.Include(x => x.Proceed).ThenInclude(y => y.Drink).First();
+        }
+
+        [HttpGet("[action]")]
+        public Drink drinks()
+        {
+            return dbcontext.Drink.Include(x => x.Proceed).First();
         }
 
         public class WeatherForecast
@@ -49,7 +56,7 @@ namespace ColaTerminal.Controllers
 
             public int TemperatureF
             {
-                get { return 32 + (int) (TemperatureC / 0.5556); }
+                get { return 32 + (int)(TemperatureC / 0.5556); }
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace ColaTerminal.Models
 {
@@ -16,7 +17,8 @@ namespace ColaTerminal.Models
         public int? Quantity { get; set; }
         public double? Price { get; set; }
 
-        public virtual ICollection<Proceed> Proceed { get; set; }
-        public virtual ICollection<RefillContainment> RefillContainment { get; set; }
+        [IgnoreDataMember]
+        public ICollection<Proceed> Proceed { get; set; }
+        public ICollection<RefillContainment> RefillContainment { get; set; }
     }
 }
