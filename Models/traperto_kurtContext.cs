@@ -176,7 +176,7 @@ namespace ColaTerminal.Models
 
                 entity.Property(e => e.RfId)
                     .HasColumnName("rfId")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.UserName)
                     .HasColumnName("userName")
