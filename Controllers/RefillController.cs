@@ -1,54 +1,97 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using ColaTerminal.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace ColaTerminal.Controllers
 {
-
     [Authorize]
     [Route("api/[controller]")]
     public class RefillController : Controller
     {
         public class RestDrinkContainment
         {
-            public uint drinkId { get; set; }
-            public uint quantity { get; set; }
+            [Required] public uint? DrinkId { get; set; }
+            [Required] public uint? Quantity { get; set; }
         }
+
         public class RestRefillment
         {
-            public double price { get; set; }
-            public List<RestDrinkContainment> items { get; set; }
+            [Required] public double? Price { get; set; }
+            [Required] public RestDrinkContainment[] Items { get; set; }
         }
 
         private readonly traperto_kurtContext dbcontext;
+
         public RefillController(traperto_kurtContext dbcontext)
         {
             this.dbcontext = dbcontext;
         }
 
-        /**
-         * curl -X POST \
-            https://localhost:5001/api/Refill/payment \
-            -H 'Content-Type: application/json' \
-            -H 'Postman-Token: 41a5bc88-eae0-4a69-b7ce-dc2013480bf6' \
-            -H 'cache-control: no-cache' \
-            -d '{price:10.45,items: [{drinkId:10, quantity:3}]}'
-         */
         [HttpPost("[action]")]
-        public bool payment([FromBody] RestRefillment input)
+        public ActionResult Payment([FromBody] RestRefillment input)
         {
-            // TODO authentication
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-            Console.WriteLine(input.price);
-            Console.WriteLine(input.items.ToList().Count);
-            Console.WriteLine(input.items[0].drinkId);
-            //Console.WriteLine($"{input.price} {input.items}");
+            // Get user-id by session
+            if (!int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out var userId))
+            {
+                return BadRequest();
+            }
 
-            return false;
+            // Try to load user by id
+            var user = dbcontext.User.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Make sure that all drinks exist
+            if (input.Items.Any(item => !dbcontext.Drink.Any(d => d.Id == item.DrinkId)))
+            {
+                return NotFound();
+            }
+
+            // user should get the money they payed for the refill.
+            user.Balance += input.Price;
+            dbcontext.Update(user);
+
+            // Create a refill
+            var refill = new Refill {UserId = (uint) userId, Price = input.Price};
+            dbcontext.Refill.Add(refill);
+
+            foreach (var item in input.Items)
+            {
+                // Add new log entry in db
+                var refillContainment = new RefillContainment
+                {
+                    RefillId = refill.Id,
+                    DrinkId = (uint) item.DrinkId,
+                    Quantity = item.Quantity
+                };
+
+                dbcontext.RefillContainment.Add(refillContainment);
+
+                // Update drink states
+                var drink = dbcontext.Drink.FirstOrDefault(d => d.Id == item.DrinkId);
+                if (drink == null)
+                {
+                    throw new Exception($"Drink for id {item.DrinkId} went missing");
+                }
+
+                drink.Quantity += (int) item.Quantity;
+                dbcontext.Update(drink);
+            }
+
+            dbcontext.SaveChanges();
+
+            return Ok();
         }
     }
 }

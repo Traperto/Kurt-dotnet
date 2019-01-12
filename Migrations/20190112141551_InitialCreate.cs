@@ -49,7 +49,7 @@ namespace ColaTerminal.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     userId = table.Column<uint>(nullable: true),
                     amount = table.Column<double>(nullable: true),
-                    date = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "GETDATE()")
+                    date = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "NOW()")
                 },
                 constraints: table =>
                 {
@@ -95,7 +95,7 @@ namespace ColaTerminal.Migrations
                 {
                     id = table.Column<uint>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    date = table.Column<DateTime>(type: "datetime", nullable: true),
+                    date = table.Column<DateTime>(type: "datetime", nullable: true,  defaultValueSql: "NOW()"),
                     userId = table.Column<uint>(nullable: true),
                     price = table.Column<double>(nullable: true)
                 },
