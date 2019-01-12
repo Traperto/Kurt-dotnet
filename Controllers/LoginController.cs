@@ -4,12 +4,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using ColaTerminal.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ColaTerminal.Controllers
@@ -17,7 +15,6 @@ namespace ColaTerminal.Controllers
     [Route("api/[controller]")]
     public class LoginController : Controller
     {
-
         private readonly traperto_kurtContext dbcontext;
 
         public LoginController(traperto_kurtContext dbcontext)
@@ -33,7 +30,7 @@ namespace ColaTerminal.Controllers
 
         [AllowAnonymous]
         [HttpPost("[action]")]
-        public ActionResult login([FromBody]LoginInput userParam)
+        public ActionResult Login([FromBody] LoginInput userParam)
         {
             Console.WriteLine(userParam.Password);
 
@@ -44,9 +41,6 @@ namespace ColaTerminal.Controllers
                 return NotFound("User could not be found for username: " + userParam.Username);
             }
 
-            Console.WriteLine(userParam.Username);
-            Console.WriteLine(userParam.Password);
-
             SHA256 sha256Hash = SHA256.Create();
             byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(userParam.Password));
 
@@ -55,6 +49,7 @@ namespace ColaTerminal.Controllers
             {
                 builder.Append(bytes[i].ToString("x2"));
             }
+
             var hashedPassword = builder.ToString();
 
             if (hashedPassword != user.Password)
@@ -62,13 +57,13 @@ namespace ColaTerminal.Controllers
                 return BadRequest("Incorrect password entered!");
             }
 
-            this.storeToSession(user.Id);
+            StoreToSession(user.Id);
 
             return Ok("Successfully logged in");
         }
 
         [HttpPost("[action]")]
-        public ActionResult logout()
+        public ActionResult Logout()
         {
             HttpContext.SignOutAsync();
 
@@ -77,7 +72,7 @@ namespace ColaTerminal.Controllers
 
         [AllowAnonymous]
         [HttpGet("[action]")]
-        public ActionResult isLoggedIn()
+        public ActionResult IsLoggedIn()
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -87,7 +82,7 @@ namespace ColaTerminal.Controllers
             return Ok(true);
         }
 
-        private async void storeToSession(uint userId)
+        private async void StoreToSession(uint userId)
         {
             var claims = new List<Claim>
             {

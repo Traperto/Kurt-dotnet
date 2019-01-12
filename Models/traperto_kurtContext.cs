@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ColaTerminal.Models
 {
@@ -13,7 +11,6 @@ namespace ColaTerminal.Models
         public traperto_kurtContext(DbContextOptions<traperto_kurtContext> options)
             : base(options)
         {
-
         }
 
         public DbSet<BalanceTransaction> BalanceTransaction { get; set; }
@@ -26,13 +23,10 @@ namespace ColaTerminal.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
             modelBuilder.Entity<BalanceTransaction>(entity =>
             {
                 entity.ToTable("balanceTransaction");
@@ -129,7 +123,7 @@ namespace ColaTerminal.Models
 
             modelBuilder.Entity<RefillContainment>(entity =>
             {
-                entity.HasKey(e => new { e.DrinkId, e.RefillId })
+                entity.HasKey(e => new {e.DrinkId, e.RefillId})
                     .HasName("PRIMARY");
 
                 entity.ToTable("refillContainment");

@@ -11,7 +11,6 @@ namespace ColaTerminal.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-
         public class RestUser
         {
             public uint Id { get; set; }
@@ -39,7 +38,8 @@ namespace ColaTerminal.Controllers
         [HttpGet("[action]/{userId}")]
         public ActionResult GetUser(uint userId)
         {
-            var user = dbcontext.User.Include(x => x.Proceed).ThenInclude(x => x.Drink).FirstOrDefault(x => x.Id == userId);
+            var user = dbcontext.User.Include(x => x.Proceed).ThenInclude(x => x.Drink)
+                .FirstOrDefault(x => x.Id == userId);
             if (user == null)
             {
                 return NotFound();
@@ -47,15 +47,14 @@ namespace ColaTerminal.Controllers
 
             return Ok(new RestUser
             {
-                Id = user.Id, 
-                UserName = user.UserName, 
-                FirstName = user.FirstName, 
+                Id = user.Id,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
                 LastName = user.LastName,
                 Proceeds = user.Proceed.ToList(),
-                Drinks = user.Proceed.GroupBy(x => x.Drink).Select(x => new RestUser.DrinkCounts { Count = x.Count(), Drink = x.Key }).ToList()
+                Drinks = user.Proceed.GroupBy(x => x.Drink)
+                    .Select(x => new RestUser.DrinkCounts {Count = x.Count(), Drink = x.Key}).ToList()
             });
         }
     }
-
-
 }

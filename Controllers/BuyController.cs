@@ -13,7 +13,6 @@ namespace ColaTerminal.Controllers
         public class BuyInput
         {
             [Required] public uint DrinkId { get; set; }
-
             [Required] public string RfId { get; set; }
         }
 
