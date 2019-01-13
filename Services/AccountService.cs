@@ -23,7 +23,7 @@ namespace ColaTerminal.Services
             }
 
             // Get user-id by session
-            if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out var userId))
+            if (!int.TryParse(user.Identity.Name, out var userId))
             {
                 return null;
             }
