@@ -3,9 +3,9 @@ import { Account } from "../models/account.model";
 import { AccountService } from "../services/account.service";
 
 @Component({
-  selector: "app-account",
+  selector: "kurt-account",
   templateUrl: "./account.component.html",
-  styleUrls: ["./account.component.css"]
+  styleUrls: ["./account.component.scss"]
 })
 export class AccountComponent implements OnInit {
   constructor(public accountService: AccountService, private zone: NgZone) {}

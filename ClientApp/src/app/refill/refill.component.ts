@@ -4,9 +4,9 @@ import { DrinkContainment } from "../models/drinkContainment.model";
 import { DrinkService } from "../services/drink-service.service";
 
 @Component({
-  selector: "app-refill",
+  selector: "kurt-refill",
   templateUrl: "./refill.component.html",
-  styleUrls: ["./refill.component.css"]
+  styleUrls: ["./refill.component.scss"]
 })
 export class RefillComponent implements OnInit {
   constructor(public drinkService: DrinkService, private zone: NgZone) {}
