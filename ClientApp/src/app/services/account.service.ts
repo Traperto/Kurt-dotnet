@@ -11,7 +11,7 @@ export class AccountService {
 
   login(username, password) {
     //TODO: Logindaten übergeben
-    this.http.post("localhost:5001/Login/login", {
+    this.http.post("https://localhost:5001/Login/login", {
       Username: username,
       Password: password
     });

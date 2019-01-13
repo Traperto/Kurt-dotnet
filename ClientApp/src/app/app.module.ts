@@ -5,21 +5,19 @@ import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { AccountComponent } from "./account/account.component";
 import { AppComponent } from "./app.component";
-import { CounterComponent } from "./counter/counter.component";
-import { FetchDataComponent } from "./fetch-data/fetch-data.component";
 import { HomeComponent } from "./home/home.component";
 import { LoginComponent } from "./login/login.component";
 import { NavMenuComponent } from "./nav-menu/nav-menu.component";
+import { RefillComponent } from "./refill/refill.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     LoginComponent,
-    AccountComponent
+    AccountComponent,
+    RefillComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -28,14 +26,9 @@ import { NavMenuComponent } from "./nav-menu/nav-menu.component";
     RouterModule.forRoot(
       [
         { path: "", component: HomeComponent, pathMatch: "full" },
-        { path: "counter", component: CounterComponent, pathMatch: "full" },
-        {
-          path: "fetch-data",
-          component: FetchDataComponent,
-          pathMatch: "full"
-        },
         { path: "login", component: LoginComponent, pathMatch: "full" },
-        { path: "account", component: AccountComponent }
+        { path: "account", component: AccountComponent },
+        { path: "refill", component: RefillComponent }
       ],
       { useHash: true }
     )

@@ -20,6 +20,7 @@ namespace ColaTerminal.Models
         public double? Balance { get; set; }
         public string RfId { get; set; }
         public string Password { get; set; }
+        public string Token { get; set; }
 
         [IgnoreDataMember] public ICollection<BalanceTransaction> BalanceTransaction { get; set; }
         [InverseProperty("User")] public ICollection<Proceed> Proceed { get; set; }

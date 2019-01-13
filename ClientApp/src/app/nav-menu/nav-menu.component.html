@@ -4,20 +4,14 @@
       [routerLinkActive]="['link-active']"
       [routerLinkActiveOptions]="{ exact: true }"
     >
-      <a [routerLink]="['/']" (click)="collapse()"> Home </a>
-    </li>
-    <li [routerLinkActive]="['link-active']">
-      <a [routerLink]="['/counter']" (click)="collapse()"> Counter </a>
-    </li>
-    <li [routerLinkActive]="['link-active']">
-      <a [routerLink]="['/fetch-data']" (click)="collapse()"> Fetch data </a>
+      <a [routerLink]="['/']"> Home </a>
     </li>
 
     <li [routerLinkActive]="['link-active']">
-      <a [routerLink]="['/login']" (click)="collapse()"> Login </a>
+      <a [routerLink]="['/login']"> Login </a>
     </li>
     <li [routerLinkActive]="['link-active']">
-      <a [routerLink]="['/account']" (click)="collapse()"> Account </a>
+      <a [routerLink]="['/account']"> Account </a>
     </li>
   </ul>
 </div>

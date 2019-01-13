@@ -9,6 +9,7 @@ using ColaTerminal.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ColaTerminal.Services;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ColaTerminal
 {
@@ -29,6 +30,28 @@ namespace ColaTerminal
             );
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Configure the JWT Authentication Service
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            })
+              .AddJwtBearer("JwtBearer", jwtOptions =>
+            {
+                jwtOptions.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    // The SigningKey is defined in the TokenController class
+                    IssuerSigningKey = TokenController.SIGNING_KEY,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromMinutes(5)
+                };
+            });
+
+
             services.AddScoped<AccountService>();
             services.AddSession(options =>
             {
