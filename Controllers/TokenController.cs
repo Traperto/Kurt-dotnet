@@ -53,7 +53,8 @@ public class TokenController : Controller
 
         return Ok(new JwtToken()
         {
-            Token = GenerateToken(user.Id.ToString())
+            Token = GenerateToken(user.Id.ToString()),
+            ExpireDate = DateTime.Now.AddMinutes(60)
         });
     }
 
@@ -75,5 +76,7 @@ public class TokenController : Controller
     public class JwtToken
     {
         public string Token { get; set; }
+
+        public DateTime ExpireDate { get; set; }
     }
 }
