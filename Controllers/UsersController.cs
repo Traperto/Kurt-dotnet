@@ -64,13 +64,24 @@ namespace ColaTerminal.Controllers
         [HttpGet("[action]")]
         public ActionResult GetCurrentUser()
         {
-            /* var user = accountService.GetCurrentUserForContext(HttpContext);
+
+            var user = dbcontext.User.Include(x => x.Proceed).ThenInclude(x => x.Drink)
+                .FirstOrDefault(x => x.Id == int.Parse(User.Identity.Name));
             if (user == null)
             {
                 return NotFound();
-            }*/
+            }
 
-            var user = User.Identity.Name;
+            return Ok(new RestUser
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Proceeds = user.Proceed.ToList(),
+                Drinks = user.Proceed.GroupBy(x => x.Drink)
+                    .Select(x => new RestUser.DrinkCounts { Count = x.Count(), Drink = x.Key }).ToList()
+            });
 
             return Ok(user);
         }

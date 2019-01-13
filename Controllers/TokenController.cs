@@ -51,7 +51,10 @@ public class TokenController : Controller
             return BadRequest("Incorrect password entered!");
         }
 
-        return new ObjectResult(GenerateToken(user.Id.ToString()));
+        return Ok(new JwtToken()
+        {
+            Token = GenerateToken(user.Id.ToString())
+        });
     }
 
     // Generate a Token with expiration date and Claim meta-data.
@@ -67,5 +70,10 @@ public class TokenController : Controller
             );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public class JwtToken
+    {
+        public string Token { get; set; }
     }
 }
