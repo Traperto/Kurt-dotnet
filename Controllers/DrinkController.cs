@@ -16,7 +16,6 @@ namespace ColaTerminal.Controllers
         }
 
         [HttpGet("[action]")]
-        [Authorize]
         public ActionResult GetAll()
         {
             var drinks = dbcontext.Drink.ToList();
