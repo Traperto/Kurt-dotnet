@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ColaTerminal.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
@@ -64,8 +64,6 @@ namespace ColaTerminal.Controllers
         [HttpGet("[action]")]
         public ActionResult GetCurrentUser()
         {
-            return Ok(User.Identity.Name);
-
 
             var user = dbcontext.User.Include(x => x.Proceed).ThenInclude(x => x.Drink)
                 .FirstOrDefault(x => x.Id == int.Parse(User.Identity.Name));
@@ -84,8 +82,6 @@ namespace ColaTerminal.Controllers
                 Drinks = user.Proceed.GroupBy(x => x.Drink)
                     .Select(x => new RestUser.DrinkCounts { Count = x.Count(), Drink = x.Key }).ToList()
             });
-
-            return Ok(user);
         }
 
     }

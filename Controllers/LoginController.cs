@@ -34,8 +34,6 @@ namespace ColaTerminal.Controllers
         [HttpPost("[action]")]
         public ActionResult Login([FromBody] LoginInput userParam)
         {
-            Console.WriteLine(userParam.Password);
-
             var user = dbcontext.User.FirstOrDefault(b => b.UserName == userParam.Username);
 
             if (user == null)

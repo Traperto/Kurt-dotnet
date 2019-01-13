@@ -25,7 +25,6 @@ public class TokenController : Controller
     [Route("api/Token/")]
     public IActionResult Post([FromBody] LoginInput userParam)
     {
-        Console.WriteLine(userParam.Password);
 
         var user = this.dbcontext.User.FirstOrDefault(b => b.UserName == userParam.Username);
 
