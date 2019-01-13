@@ -12,12 +12,14 @@ export class AccountService {
   login(username, password) {
     //TODO: Logindaten übergeben
     this.http.post("localhost:5001/Login/login", {
-      Username: "mmustermann",
-      Password: "1qa<YXCV"
+      Username: username,
+      Password: password
     });
   }
 
   getUser(): Observable<Account> {
-    return this.http.get<Account>("https://localhost:5001/api/Users/getUser/1");
+    return this.http.get<Account>(
+      "https://localhost:5001/api/Users/GetCurrentUser"
+    );
   }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using ColaTerminal.Models;
+using ColaTerminal.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,10 +31,12 @@ namespace ColaTerminal.Controllers
         }
 
         private readonly traperto_kurtContext dbcontext;
+        private readonly AccountService accountService;
 
-        public UsersController(traperto_kurtContext dbcontext)
+        public UsersController(traperto_kurtContext dbcontext, AccountService accountService)
         {
             this.dbcontext = dbcontext;
+            this.accountService = accountService;
         }
 
         [HttpGet("[action]/{userId}")]
@@ -61,7 +64,13 @@ namespace ColaTerminal.Controllers
         [HttpGet("[action]")]
         public ActionResult GetCurrentUser()
         {
-            return null;
+            var user = accountService.GetCurrentUserForContext(HttpContext);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
     }

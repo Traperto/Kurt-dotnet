@@ -1,5 +1,8 @@
 <p>login works!</p>
 
-<input type="text" name="username" [(ngModel)]="username" /> <br />
-<input type="text" name="password" [(ngModel)]="password" /> <br />
-<input type="button" value="Log mich ein!" (click)="login()" />
+<form>
+  <input type="text" name="username" [(ngModel)]="username" required /> <br />
+  <input type="password" name="password" [(ngModel)]="password" required />
+  <br />
+  <input type="button" value="Log mich ein!" (click)="login()" />
+</form>
