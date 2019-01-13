@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Account } from "../models/account.model";
+import { Token } from "../models/token.model";
 
 @Injectable({
   providedIn: "root"
@@ -11,13 +12,13 @@ export class AccountService {
 
   login(username, password) {
     this.http
-      .post("https://localhost:5001/api/token/", {
+      .post<Token>("https://localhost:5001/api/token/", {
         Username: username,
         Password: password
       })
       .subscribe(data => {
         console.log(data);
-        //localStorage.setItem("token", data.token);
+        localStorage.setItem("token", data.token);
       });
   }
 
