@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using ColaTerminal.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -53,8 +54,15 @@ namespace ColaTerminal.Controllers
                 LastName = user.LastName,
                 Proceeds = user.Proceed.ToList(),
                 Drinks = user.Proceed.GroupBy(x => x.Drink)
-                    .Select(x => new RestUser.DrinkCounts {Count = x.Count(), Drink = x.Key}).ToList()
+                    .Select(x => new RestUser.DrinkCounts { Count = x.Count(), Drink = x.Key }).ToList()
             });
         }
+
+        [HttpGet("[action]")]
+        public ActionResult GetCurrentUser()
+        {
+            return null;
+        }
+
     }
 }

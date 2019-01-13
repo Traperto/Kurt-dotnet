@@ -1,5 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { Account } from "../models/account.model";
 
 @Injectable({
   providedIn: "root"
@@ -15,11 +17,7 @@ export class AccountService {
     });
   }
 
-  getUser() {
-    this.http
-      .get("https://localhost:5001/api/Users/getUser/1")
-      .subscribe(data => {
-        console.log(data);
-      });
+  getUser(): Observable<Account> {
+    return this.http.get<Account>("https://localhost:5001/api/Users/getUser/1");
   }
 }
