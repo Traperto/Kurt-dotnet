@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using ColaTerminal.Services;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace ColaTerminal
 {
@@ -80,9 +81,17 @@ namespace ColaTerminal
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
+            app.UseAuthentication();
+
             app.UseSession();
             app.UseAuthentication();
             app.UseCors(builder =>
