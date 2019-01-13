@@ -64,11 +64,13 @@ namespace ColaTerminal.Controllers
         [HttpGet("[action]")]
         public ActionResult GetCurrentUser()
         {
-            var user = accountService.GetCurrentUserForContext(HttpContext);
+            /* var user = accountService.GetCurrentUserForContext(HttpContext);
             if (user == null)
             {
                 return NotFound();
-            }
+            }*/
+
+            var user = User.Identity.Name;
 
             return Ok(user);
         }
