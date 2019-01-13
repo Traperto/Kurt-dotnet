@@ -17,7 +17,7 @@ export class AccountService {
       })
       .subscribe(data => {
         console.log(data);
-        localStorage.setItem("token", data.token);
+        //localStorage.setItem("token", data.token);
       });
   }
 
@@ -28,8 +28,11 @@ export class AccountService {
     });
 
     console.log(headers);
-    return this.http.get("https://localhost:5001/api/Users/GetCurrentUser", {
-      headers: headers
-    });
+    return this.http.get<Account>(
+      "https://localhost:5001/api/Users/GetCurrentUser",
+      {
+        headers: headers
+      }
+    );
   }
 }

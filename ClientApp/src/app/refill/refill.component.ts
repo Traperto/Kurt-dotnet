@@ -25,12 +25,14 @@ export class RefillComponent implements OnInit {
   }
 
   add() {
-    let drinkContainment: DrinkContainment = {
-      drink: this.currentDrink,
-      amount: 0
-    };
+    console.log(this.currentDrink);
 
-    this.refilledDrinks.push(drinkContainment);
+    //let drinkContainment: DrinkContainment = {
+    //drink: this.currentDrink,
+    //amount: 0
+    //};
+
+    //this.refilledDrinks.push(drinkContainment);
     console.log(this.refilledDrinks);
   }
 }

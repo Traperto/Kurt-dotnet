@@ -5,13 +5,13 @@
   <input type="number" name="price" id="price" /> <br />
 
   <select name="currentDrink" [(ngModel)]="currentDrink">
-    <option *ngFor="let drink of drinks" value="{{ drink.id }}">{{
+    <option *ngFor="let drink of drinks" value="{{ drink }}">{{
       drink.name
     }}</option>
   </select>
   <button (click)="add()">hinzufügen</button>
 
   <ul>
-    <li *ngFor="let drink of refilledDrinks">{{ drink.drinkId }}</li>
+    <li *ngFor="let drink of refilledDrinks"></li>
   </ul>
 </form>
