@@ -17,7 +17,7 @@ namespace ColaTerminal.Controllers
             [Required] public uint? DrinkId { get; set; }
             [Required] public uint? Quantity { get; set; }
         }
-
+         
         public class RestRefillment
         {
             [Required] public double? Price { get; set; }

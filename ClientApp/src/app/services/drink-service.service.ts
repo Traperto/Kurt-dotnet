@@ -10,6 +10,6 @@ export class DrinkService {
   constructor(private http: HttpClient) {}
 
   getUser(): Observable<Drink[]> {
-    return this.http.get<Drink[]>("https://localhost:5001/api/Drink/getAll");
+    return this.http.get<Drink[]>("http://localhost:5000/api/Drink/getAll");
   }
 }

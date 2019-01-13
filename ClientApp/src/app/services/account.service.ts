@@ -12,7 +12,7 @@ export class AccountService {
 
   login(username, password) {
     this.http
-      .post<Token>("https://localhost:5001/api/token/", {
+      .post<Token>("http://localhost:5000/api/token/", {
         Username: username,
         Password: password
       })
@@ -30,7 +30,7 @@ export class AccountService {
 
     console.log(headers);
     return this.http.get<Account>(
-      "https://localhost:5001/api/Users/GetCurrentUser",
+      "http://localhost:5000/api/Users/GetCurrentUser",
       {
         headers: headers
       }

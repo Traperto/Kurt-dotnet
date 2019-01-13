@@ -108,6 +108,8 @@ namespace ColaTerminal
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            SeedData.Initialize(app.ApplicationServices);
         }
     }
 }
