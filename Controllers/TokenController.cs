@@ -53,17 +53,21 @@ public class TokenController : Controller
 
         return Ok(new JwtToken()
         {
-            Token = GenerateToken(user.Id.ToString()),
+            Token = GenerateToken(new RestToken()
+            {
+                UserId = user.Id,
+                ExpireDate = DateTime.Now.AddMinutes(60)
+            }),
             ExpireDate = DateTime.Now.AddMinutes(60)
         });
     }
 
     // Generate a Token with expiration date and Claim meta-data.
     // And sign the token with the SIGNING_KEY
-    private string GenerateToken(string username)
+    private string GenerateToken(RestToken restToken)
     {
         var token = new JwtSecurityToken(
-            claims: new Claim[] { new Claim(ClaimTypes.Name, username) },
+            claims: new Claim[] { new Claim(ClaimTypes.Name, restToken.UserId.ToString()) },
             notBefore: new DateTimeOffset(DateTime.Now).DateTime,
             expires: new DateTimeOffset(DateTime.Now.AddMinutes(60)).DateTime,
             signingCredentials: new SigningCredentials(SIGNING_KEY,
@@ -77,6 +81,13 @@ public class TokenController : Controller
     {
         public string Token { get; set; }
 
+        public DateTime ExpireDate { get; set; }
+    }
+
+    public class RestToken
+    {
+
+        public uint UserId { get; set; }
         public DateTime ExpireDate { get; set; }
     }
 }

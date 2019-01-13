@@ -64,6 +64,8 @@ namespace ColaTerminal.Controllers
         [HttpGet("[action]")]
         public ActionResult GetCurrentUser()
         {
+            return Ok(User.Identity.Name);
+
 
             var user = dbcontext.User.Include(x => x.Proceed).ThenInclude(x => x.Drink)
                 .FirstOrDefault(x => x.Id == int.Parse(User.Identity.Name));
