@@ -57,7 +57,8 @@ public class TokenController : Controller
                 UserId = user.Id,
                 ExpireDate = DateTime.Now.AddMinutes(60)
             }),
-            ExpireDate = DateTime.Now.AddMinutes(60)
+            ExpireDate = DateTime.Now.AddMinutes(60),
+            UserId = user.Id
         });
     }
 
@@ -66,7 +67,9 @@ public class TokenController : Controller
     private string GenerateToken(RestToken restToken)
     {
         var token = new JwtSecurityToken(
-            claims: new Claim[] { new Claim(ClaimTypes.Name, restToken.UserId.ToString()) },
+            claims: new Claim[] { 
+                new Claim("userId", restToken.UserId.ToString()),
+             },
             notBefore: new DateTimeOffset(DateTime.Now).DateTime,
             expires: new DateTimeOffset(DateTime.Now.AddMinutes(60)).DateTime,
             signingCredentials: new SigningCredentials(SIGNING_KEY,
@@ -81,6 +84,7 @@ public class TokenController : Controller
         public string Token { get; set; }
 
         public DateTime ExpireDate { get; set; }
+        public uint UserId { get; set; }
     }
 
     public class RestToken
