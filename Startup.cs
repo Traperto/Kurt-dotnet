@@ -11,6 +11,7 @@ using System;
 using ColaTerminal.Services;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.HttpOverrides;
+using System.Text;
 
 namespace ColaTerminal
 {
@@ -42,13 +43,11 @@ namespace ColaTerminal
             {
                 jwtOptions.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    // The SigningKey is defined in the TokenController class
-                    IssuerSigningKey = TokenController.SIGNING_KEY,
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromMinutes(5)
+                    ValidateIssuerSigningKey = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWTSecretKey"]))
                 };
             });
 

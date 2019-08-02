@@ -31,7 +31,8 @@ namespace ColaTerminal.Controllers
                 return BadRequest("Invalid body given");
             }
 
-            var user = dbcontext.User.FirstOrDefault(u => u.RfId == userParam.RfId);
+            // TODO: var user = dbcontext.User.FirstOrDefault(u => u.RfId == userParam.RfId);
+            User user = null;
             var drink = dbcontext.Drink.FirstOrDefault(d => d.Id == userParam.DrinkId);
 
             if (user == null || drink == null)
@@ -39,7 +40,7 @@ namespace ColaTerminal.Controllers
                 return NotFound();
             }
 
-            var proceed = new Proceed {UserId = user.Id, DrinkId = drink.Id, Price = drink.Price};
+            var proceed = new Proceed { UserId = user.Id, DrinkId = drink.Id, Price = drink.Price };
 
             if (drink.Quantity == 0)
             {

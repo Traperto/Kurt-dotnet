@@ -12,15 +12,20 @@ using static ColaTerminal.Controllers.LoginController;
 
 public class TokenController : Controller
 {
+    private IConfiguration configuration;
+
     private static string SECRET_KEY;
-    public static readonly SymmetricSecurityKey SIGNING_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
+    public static SymmetricSecurityKey SIGNING_KEY;
 
     private readonly traperto_kurtContext dbcontext;
 
-    public TokenController(traperto_kurtContext dbcontext)
+    public TokenController(traperto_kurtContext dbcontext, IConfiguration configuration)
     {
+        this.configuration = configuration;
         this.dbcontext = dbcontext;
-        SECRET_KEY = Configuration.GetConnectionString("JWTSecretKey");
+        SECRET_KEY = configuration.GetValue<string>("JWTSecretKey");
+        SIGNING_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
+
     }
 
     public IConfiguration Configuration { get; set; }
@@ -37,17 +42,8 @@ public class TokenController : Controller
             return NotFound("User could not be found for username: " + userParam.Username);
         }
 
-        SHA256 sha256Hash = SHA256.Create();
-        byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(userParam.Password));
 
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < bytes.Length; i++)
-        {
-            builder.Append(bytes[i].ToString("x2"));
-        }
-
-        var hashedPassword = builder.ToString();
-
+        var hashedPassword = createHashedPassword(userParam.Password);
 
         if (hashedPassword != user.Password)
         {
@@ -92,5 +88,19 @@ public class TokenController : Controller
 
         public uint UserId { get; set; }
         public DateTime ExpireDate { get; set; }
+    }
+
+    public static string createHashedPassword(string password)
+    {
+        SHA256 sha256Hash = SHA256.Create();
+        byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            builder.Append(bytes[i].ToString("x2"));
+        }
+
+        return builder.ToString();
     }
 }

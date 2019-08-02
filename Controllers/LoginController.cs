@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -9,8 +8,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
 
 namespace ColaTerminal.Controllers
 {
@@ -24,11 +21,7 @@ namespace ColaTerminal.Controllers
             this.dbcontext = dbcontext;
         }
 
-        public class LoginInput
-        {
-            public string Username { get; set; }
-            public string Password { get; set; }
-        }
+
 
         [AllowAnonymous]
         [HttpPost("[action]")]

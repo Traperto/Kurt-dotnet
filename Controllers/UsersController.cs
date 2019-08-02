@@ -84,5 +84,27 @@ namespace ColaTerminal.Controllers
             });
         }
 
+
+        [AllowAnonymous]
+        [HttpPost("[action]")]
+        public ActionResult Register([FromBody]LoginInput userParams)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("you suck");
+            }
+
+            var user = new User()
+            {
+                UserName = userParams.Username,
+                Password = TokenController.createHashedPassword(userParams.Password)
+            };
+
+            dbcontext.User.Add(user);
+            dbcontext.SaveChanges();
+
+            return Ok("user registered");
+        }
+
     }
 }
