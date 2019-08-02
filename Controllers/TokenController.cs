@@ -6,12 +6,13 @@ using System.Security.Cryptography;
 using System.Text;
 using ColaTerminal.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using static ColaTerminal.Controllers.LoginController;
 
 public class TokenController : Controller
 {
-    private const string SECRET_KEY = "TQvgjeABMPOwCycOqah5EQu5yyVjpmVG";
+    private static string SECRET_KEY;
     public static readonly SymmetricSecurityKey SIGNING_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
 
     private readonly traperto_kurtContext dbcontext;
@@ -19,7 +20,10 @@ public class TokenController : Controller
     public TokenController(traperto_kurtContext dbcontext)
     {
         this.dbcontext = dbcontext;
+        SECRET_KEY = Configuration.GetConnectionString("JWTSecretKey");
     }
+
+    public IConfiguration Configuration { get; set; }
 
     [HttpPost]
     [Route("api/Token/")]
