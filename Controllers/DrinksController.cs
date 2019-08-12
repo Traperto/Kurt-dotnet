@@ -6,16 +6,16 @@ using System.Linq;
 namespace ColaTerminal.Controllers
 {
     [Route("api/[controller]")]
-    public class DrinkController : Controller
+    public class DrinksController : Controller
     {
         private readonly traperto_kurtContext dbcontext;
 
-        public DrinkController(traperto_kurtContext dbcontext)
+        public DrinksController(traperto_kurtContext dbcontext)
         {
             this.dbcontext = dbcontext;
         }
 
-        [HttpGet("[action]")]
+        [HttpGet()]
         public ActionResult GetAll()
         {
             var drinks = dbcontext.Drink.ToList();
