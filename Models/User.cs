@@ -19,7 +19,6 @@ namespace ColaTerminal.Models
         public string LastName { get; set; }
         public double? Balance { get; set; }
         public string Password { get; set; }
-        public string Token { get; set; }
 
         [IgnoreDataMember] public ICollection<BalanceTransaction> BalanceTransaction { get; set; }
         [InverseProperty("User")] public ICollection<Proceed> Proceed { get; set; }
