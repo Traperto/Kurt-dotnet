@@ -47,7 +47,7 @@ namespace ColaTerminal
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWTSecretKey"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetConnectionString("JWTSecretKey")))
                 };
             });
 
@@ -99,6 +99,8 @@ namespace ColaTerminal
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute("login", "api/login",
+                    defaults: new { controller = "Auth", action = "Login" });
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using ColaTerminal.Models;
 using ColaTerminal.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +21,7 @@ namespace ColaTerminal.Controllers
             public string UserName { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
-
+            
             public List<Proceed> Proceeds { get; set; }
             public List<DrinkCounts> Drinks { get; set; }
 
@@ -97,7 +99,7 @@ namespace ColaTerminal.Controllers
             var user = new User()
             {
                 UserName = userParams.Username,
-                Password = TokenController.createHashedPassword(userParams.Password)
+                Password = createHashedPassword(userParams.Password)
             };
 
             dbcontext.User.Add(user);
@@ -105,6 +107,19 @@ namespace ColaTerminal.Controllers
 
             return Ok("user registered");
         }
+        
+        public static string createHashedPassword(string password)
+        {
+            SHA256 sha256Hash = SHA256.Create();
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
 
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                builder.Append(bytes[i].ToString("x2"));
+            }
+
+            return builder.ToString();
+        }
     }
 }
