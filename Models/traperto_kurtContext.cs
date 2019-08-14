@@ -19,6 +19,7 @@ namespace ColaTerminal.Models
         public DbSet<Refill> Refill { get; set; }
         public DbSet<RefillContainment> RefillContainment { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Rfid> Rfid { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
