@@ -14,7 +14,7 @@ namespace ColaTerminal.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ColaTerminal.Models.BalanceTransaction", b =>
@@ -137,6 +137,22 @@ namespace ColaTerminal.Migrations
                     b.ToTable("refillContainment");
                 });
 
+            modelBuilder.Entity("ColaTerminal.Models.Rfid", b =>
+                {
+                    b.Property<uint>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("rfId");
+
+                    b.Property<uint>("userId");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Rfid");
+                });
+
             modelBuilder.Entity("ColaTerminal.Models.User", b =>
                 {
                     b.Property<uint>("Id")
@@ -157,12 +173,6 @@ namespace ColaTerminal.Migrations
                     b.Property<string>("Password")
                         .HasColumnName("password")
                         .HasColumnType("varchar(255)");
-
-                    b.Property<string>("RfId")
-                        .HasColumnName("rfId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Token");
 
                     b.Property<string>("UserName")
                         .HasColumnName("userName")
@@ -213,6 +223,14 @@ namespace ColaTerminal.Migrations
                         .WithMany("RefillContainment")
                         .HasForeignKey("RefillId")
                         .HasConstraintName("conainment_refill");
+                });
+
+            modelBuilder.Entity("ColaTerminal.Models.Rfid", b =>
+                {
+                    b.HasOne("ColaTerminal.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

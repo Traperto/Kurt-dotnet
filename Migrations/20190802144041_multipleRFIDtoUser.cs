@@ -13,7 +13,7 @@ namespace ColaTerminal.Migrations
                 columns: table => new
                 {
                     userId = table.Column<uint>(nullable: true),
-                    rfId = table.Column<int>(type: "int(11)", nullable: true),
+                    rfId = table.Column<string>(type: "varchar(11)", nullable: true),
                 },
                 constraints: table =>
                 {

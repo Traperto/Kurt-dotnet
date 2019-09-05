@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ColaTerminal.Models
 {
-    public partial class Rfid
+    public class Rfid
     {
         public uint id { get; set; }
         public string rfId { get; set; }
