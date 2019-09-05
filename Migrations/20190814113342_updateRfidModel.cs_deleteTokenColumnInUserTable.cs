@@ -6,13 +6,15 @@ namespace ColaTerminal.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn("token", "user");
+            migrationBuilder.DropColumn(
+                name: "Token",
+                table: "user");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "token",
+                name: "Token",
                 table: "user",
                 nullable: true);
         }
