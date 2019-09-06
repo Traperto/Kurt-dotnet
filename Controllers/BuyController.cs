@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ColaTerminal.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize]
     public class BuyController : Controller
     {
         public class BuyInput
@@ -31,26 +31,26 @@ namespace ColaTerminal.Controllers
             this.dbcontext = dbcontext;
         }
 
-        [HttpPost("[action]")]
+        [HttpPost()]
         public ActionResult Buy([FromBody] BuyInput userParam)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid body given");
             }
-            
+
             var drink = dbcontext.Drink.FirstOrDefault(d => d.Id == userParam.DrinkId);
             if (drink == null)
             {
                 return NotFound("Getränk nicht gefunden");
             }
-            
+
             var rfid = dbcontext.Rfid.Include(x => x.User).FirstOrDefault(r => r.rfId == userParam.RfId);
             if (rfid == null)
             {
                 return NotFound("Rfid nicht gefunden");
             }
-            
+
             var user = rfid.User;
             if (user == null)
             {
@@ -62,7 +62,7 @@ namespace ColaTerminal.Controllers
             {
                 return BadRequest("Can not get drink since there should be no more drinks available");
             }
-            
+
             dbcontext.Proceed.Add(proceed);
             user.Balance -= drink.Price;
             drink.Quantity -= 1;

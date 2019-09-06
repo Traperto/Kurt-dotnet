@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ColaTerminal.Controllers 
+namespace ColaTerminal.Controllers
 {
     public class AuthController : Controller
     {
@@ -24,10 +24,10 @@ namespace ColaTerminal.Controllers
         {
             _dbcontext = dbcontext;
             _configuration = configuration;
-            SECRET_KEY = configuration.GetConnectionString("JWTSecretKey");
+            SECRET_KEY = configuration["JWTSecretKey"];
             SIGNING_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
         }
-        
+
         public class JwtToken
         {
             public string Token { get; set; }
@@ -44,7 +44,7 @@ namespace ColaTerminal.Controllers
         private string GenerateToken(RestToken restToken)
         {
             var token = new JwtSecurityToken(
-                claims: new Claim[] { 
+                claims: new Claim[] {
                     new Claim("userId", restToken.UserId.ToString()),
                 },
                 notBefore: new DateTimeOffset(DateTime.Now).DateTime,
@@ -55,7 +55,7 @@ namespace ColaTerminal.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        
+
         [AllowAnonymous]
         [HttpPost]
         public ActionResult Login([FromBody] LoginInput userParam)
@@ -81,13 +81,13 @@ namespace ColaTerminal.Controllers
             {
                 return BadRequest("Incorrect password entered!");
             }
-            
+
             return Ok(new JwtToken()
             {
                 Token = GenerateToken(new RestToken()
                 {
                     UserId = user.Id,
-                    UserName =  user.UserName,
+                    UserName = user.UserName,
                     ExpireDate = DateTime.Now.AddDays(1)
                 }),
                 ExpireDate = DateTime.Now.AddDays(1),

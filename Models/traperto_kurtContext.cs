@@ -124,7 +124,7 @@ namespace ColaTerminal.Models
 
             modelBuilder.Entity<RefillContainment>(entity =>
             {
-                entity.HasKey(e => new {e.DrinkId, e.RefillId})
+                entity.HasKey(e => new { e.DrinkId, e.RefillId })
                     .HasName("PRIMARY");
 
                 entity.ToTable("refillContainment");
@@ -172,12 +172,15 @@ namespace ColaTerminal.Models
                 entity.Property(e => e.Password)
                     .HasColumnName("password")
                     .HasColumnType("varchar(255)");
-                    
+
 
                 entity.Property(e => e.UserName)
                     .HasColumnName("userName")
                     .HasColumnType("varchar(50)");
             });
+
+            modelBuilder.Entity<Rfid>()
+            .HasKey(c => new { c.userId, c.rfId });
         }
     }
 }
