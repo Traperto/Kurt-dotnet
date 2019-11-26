@@ -70,6 +70,7 @@ namespace ColaTerminal.Controllers
             
             dbcontext.Proceed.Add(proceed);
             user.Balance -= drink.Price;
+            user.Balance = Math.Round(user.Balance, 2);
             drink.Quantity -= 1;
 
             dbcontext.Update(user);
