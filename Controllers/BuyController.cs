@@ -62,8 +62,8 @@ namespace ColaTerminal.Controllers
             {
                 return BadRequest("Can not get drink since there should be no more drinks available");
             }
-
-            if (user.Balance >= 0.5)
+            
+            if (user.Balance < drink.Price)
             {
                 return BadRequest("Balance is insufficient");
             }
