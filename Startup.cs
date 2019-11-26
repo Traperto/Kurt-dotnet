@@ -29,7 +29,7 @@ namespace ColaTerminal
             services.AddDbContext<traperto_kurtContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"))
             );
-
+            services.AddHttpClient();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Configure the JWT Authentication Service
