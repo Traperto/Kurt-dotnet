@@ -50,7 +50,7 @@ namespace ColaTerminal.Controllers
             {
                 return NotFound("Rfid nicht gefunden");
             }
-            
+
             var user = rfid.User;
             if (user == null)
             {
@@ -61,6 +61,11 @@ namespace ColaTerminal.Controllers
             if (drink.Quantity == 0)
             {
                 return BadRequest("Can not get drink since there should be no more drinks available");
+            }
+
+            if (user.Balance >= 0.5)
+            {
+                return BadRequest("Balance is insufficient");
             }
             
             dbcontext.Proceed.Add(proceed);
